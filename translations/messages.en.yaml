@@ -1,0 +1,62 @@
+# Navigation
+nav:
+  home: 'Home'
+  admin: 'Administration'
+  login: 'Login'
+  logout: 'Logout'
+
+# Search
+search:
+  placeholder: 'Search for an article...'
+
+# Blog
+blog:
+  home:
+    title: 'Multilingual Blog - Home'
+    welcome: 'Welcome to our multilingual blog'
+    no_articles: 'No articles published yet.'
+  categories: 'Categories'
+  search: 'Search'
+  read_more: 'Read more'
+
+# Article
+article:
+  back_to_list: 'Back to list'
+  view_category: 'View category'
+  seo_info: 'SEO Information'
+  seo_title: 'SEO Title'
+  seo_description: 'SEO Description'
+
+# Pagination
+pagination:
+  previous: 'Previous'
+  next: 'Next'
+
+# Footer
+footer:
+  description: 'A modern multilingual blog created with Symfony'
+  rights: 'All rights reserved.'
+
+# Login
+login:
+  title: 'Login'
+  email: 'Email'
+  password: 'Password'
+  sign_in: 'Sign in'
+  already_logged: 'You are logged in as'
+  demo_accounts: 'Demo accounts:'
+
+# Success messages
+success:
+  article_created: 'Article created successfully.'
+  article_updated: 'Article updated successfully.'
+  article_deleted: 'Article deleted successfully.'
+  category_created: 'Category created successfully.'
+  category_updated: 'Category updated successfully.'
+  category_deleted: 'Category deleted successfully.'
+
+# Error messages
+error:
+  article_not_found: 'Article not found.'
+  category_not_found: 'Category not found.'
+  access_denied: 'Access denied.' 

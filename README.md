@@ -1,51 +1,226 @@
-# Symfony Docker
+# Blog Multilingue Symfony
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
-with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
+Un blog moderne et multilingue développé avec Symfony 7+, supportant le français, l'anglais et l'espagnol.
 
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
+## 🚀 Fonctionnalités
 
-## Getting Started
+### Frontend
+- ✅ Page d'accueil avec liste paginée d'articles
+- ✅ Sélecteur de langue visible et persistant
+- ✅ Navigation multilingue avec URLs SEO-friendly
+- ✅ Page de détails d'article traduit dans la langue active
+- ✅ Système de recherche (titre et contenu)
+- ✅ Interface responsive avec Bootstrap 5
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --pull --no-cache` to build fresh images
-3. Run `docker compose up --wait` to set up and start a fresh Symfony project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+### Articles
+- ✅ Titre, résumé, contenu, slug traduisibles
+- ✅ Date de publication
+- ✅ Image à la une (upload via VichUploader)
+- ✅ Catégories traduisibles
+- ✅ SEO par langue (titre, description, image OG)
+- ✅ Auteur et métadonnées
 
-## Features
+### Back-office (EasyAdmin)
+- ✅ CRUD complet des articles avec interface de gestion des traductions
+- ✅ CRUD catégories
+- ✅ Authentification avec formulaire
+- ✅ Rôles : admin / éditeur
+- ✅ Upload d'images
+- ✅ Interface d'administration moderne
 
-* Production, development and CI ready
-* Just 1 service by default
-* Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://github.com/dunglas/frankenphp/blob/main/docs/worker.md) (automatically enabled in prod mode)
-* [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-* Automatic HTTPS (in dev and prod)
-* HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-* Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-* [Vulcain](https://vulcain.rocks) support
-* Native [XDebug](docs/xdebug.md) integration
-* Super-readable configuration
+### Multilingue
+- ✅ Support complet : français (fr), anglais (en), espagnol (es)
+- ✅ URLs localisées : `/fr/article/mon-slug`, `/en/article/my-slug`
+- ✅ Traductions via le composant Symfony Translation
+- ✅ Entités traduisibles avec système de traductions personnalisé
 
-**Enjoy!**
+## 🛠️ Installation
 
-## Docs
+### Prérequis
+- Docker et Docker Compose
+- Git
 
-1. [Options available](docs/options.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using MySQL instead of PostgreSQL](docs/mysql.md)
-8. [Using Alpine Linux instead of Debian](docs/alpine.md)
-9. [Using a Makefile](docs/makefile.md)
-10. [Updating the template](docs/updating.md)
-11. [Troubleshooting](docs/troubleshooting.md)
+### Étapes d'installation
 
-## License
+1. **Cloner le projet**
+   ```bash
+   git clone <repository-url>
+   cd blog-multilingue-symfony
+   ```
 
-Symfony Docker is available under the MIT License.
+2. **Lancer l'environnement Docker**
+   ```bash
+   docker compose up -d
+   ```
 
-## Credits
+3. **Installer les dépendances**
+   ```bash
+   docker compose exec php composer install
+   ```
 
-Created by [Kévin Dunglas](https://dunglas.dev), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+4. **Créer la base de données et exécuter les migrations**
+   ```bash
+   docker compose exec php bin/console doctrine:database:create
+   docker compose exec php bin/console doctrine:migrations:migrate --no-interaction
+   ```
+
+5. **Charger les fixtures (données de test)**
+   ```bash
+   docker compose exec php bin/console doctrine:fixtures:load --no-interaction
+   ```
+
+6. **Créer le dossier d'upload**
+   ```bash
+   docker compose exec php mkdir -p public/uploads/articles
+   ```
+
+## 🔐 Accès
+
+### Frontend
+- **URL** : http://localhost
+- **Langues disponibles** : Français, Anglais, Espagnol
+
+### Back-office
+- **URL** : http://localhost/admin
+- **Identifiants par défaut** :
+  - **Admin** : `admin@blog.com` / `admin123`
+  - **Éditeur** : `editor@blog.com` / `editor123`
+
+## 📁 Structure du projet
+
+```
+blog-multilingue-symfony/
+├── src/
+│   ├── Controller/
+│   │   ├── BlogController.php          # Contrôleur frontend
+│   │   ├── AdminController.php         # Dashboard EasyAdmin
+│   │   └── Admin/                      # CRUD EasyAdmin
+│   │       ├── ArticleCrudController.php
+│   │       ├── CategoryCrudController.php
+│   │       └── UserCrudController.php
+│   ├── Entity/
+│   │   ├── Article.php                 # Entité Article
+│   │   ├── ArticleTranslation.php      # Traductions Article
+│   │   ├── Category.php                # Entité Category
+│   │   ├── CategoryTranslation.php     # Traductions Category
+│   │   └── User.php                    # Entité User
+│   ├── Repository/
+│   │   └── ArticleRepository.php       # Repository avec méthodes de recherche
+│   └── DataFixtures/
+│       └── AppFixtures.php             # Données de test multilingues
+├── templates/
+│   ├── base.html.twig                  # Layout principal
+│   ├── blog/
+│   │   ├── index.html.twig             # Page d'accueil
+│   │   └── show.html.twig              # Page article
+│   └── security/
+│       └── login.html.twig             # Page de connexion
+├── translations/
+│   ├── messages.fr.yaml                # Traductions françaises
+│   ├── messages.en.yaml                # Traductions anglaises
+│   └── messages.es.yaml                # Traductions espagnoles
+├── config/
+│   ├── packages/
+│   │   ├── doctrine.yaml               # Configuration Doctrine
+│   │   ├── security.yaml               # Configuration sécurité
+│   │   └── vich_uploader.yaml          # Configuration upload
+│   └── routes.yaml                     # Routes
+├── public/
+│   └── uploads/
+│       └── articles/                   # Images uploadées
+├── docker-compose.yml                  # Configuration Docker
+└── README.md                           # Ce fichier
+```
+
+## 🌐 Utilisation
+
+### Navigation multilingue
+- Les URLs sont automatiquement localisées : `/fr/`, `/en/`, `/es/`
+- Le sélecteur de langue permet de changer de langue tout en conservant la page actuelle
+- Les traductions sont automatiquement appliquées selon la langue sélectionnée
+
+### Gestion des articles
+1. Connectez-vous au back-office avec un compte admin
+2. Accédez à "Articles" dans le menu
+3. Créez un nouvel article en remplissant les champs pour chaque langue
+4. Uploadez une image à la une si nécessaire
+5. Publiez l'article
+
+### Gestion des catégories
+1. Dans le back-office, accédez à "Catégories"
+2. Créez des catégories avec leurs traductions
+3. Les catégories apparaîtront automatiquement dans la navigation
+
+## 🔧 Configuration
+
+### Base de données
+Le projet utilise PostgreSQL par défaut. La configuration se trouve dans `docker-compose.yml` :
+```yaml
+DATABASE_URL: postgresql://app:!ChangeMe!@database:5432/app?serverVersion=15&charset=utf8
+```
+
+### Upload d'images
+Les images sont configurées via VichUploader dans `config/packages/vich_uploader.yaml` :
+```yaml
+mappings:
+    article_images:
+        uri_prefix: /uploads/articles
+        upload_destination: '%kernel.project_dir%/public/uploads/articles'
+```
+
+### Sécurité
+- Authentification par formulaire
+- Rôles : `ROLE_USER`, `ROLE_EDITOR`, `ROLE_ADMIN`
+- Protection CSRF activée
+
+## 🚀 Déploiement
+
+### Production
+1. Modifiez les variables d'environnement dans `.env.local`
+2. Changez les mots de passe par défaut
+3. Configurez votre serveur web pour pointer vers `public/`
+4. Assurez-vous que le dossier `public/uploads/` est accessible en écriture
+
+### Variables d'environnement importantes
+```bash
+DATABASE_URL=postgresql://user:password@host:5432/database
+APP_SECRET=your-secret-key
+```
+
+## 🐛 Dépannage
+
+### Problèmes courants
+
+**Erreur de base de données**
+```bash
+docker compose exec php bin/console doctrine:database:create
+docker compose exec php bin/console doctrine:migrations:migrate
+```
+
+**Problème d'upload d'images**
+```bash
+docker compose exec php mkdir -p public/uploads/articles
+docker compose exec php chmod -R 777 public/uploads
+```
+
+**Cache Symfony**
+```bash
+docker compose exec php bin/console cache:clear
+```
+
+## 📝 Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à :
+1. Fork le projet
+2. Créer une branche pour votre fonctionnalité
+3. Commiter vos changements
+4. Pousser vers la branche
+5. Ouvrir une Pull Request
+
+## 📞 Support
+
+Pour toute question ou problème, n'hésitez pas à ouvrir une issue sur GitHub.
