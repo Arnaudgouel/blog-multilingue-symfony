@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'blog.home.title'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <!-- Contenu principal -->
+        <div class="col-lg-8">
+            <h1 class="mb-4">{{ 'blog.home.welcome'|trans }}</h1>
+            
+            {% if articles is empty %}
+                <div class="alert alert-info">
+                    {{ 'blog.home.no_articles'|trans }}
+                </div>
+            {% else %}
+                {% for article in articles %}
+                    <article class="card mb-4">
+                        {% if article.imageName %}
+                            <img src="{{ asset('uploads/articles/' ~ article.imageName) }}" 
+                                 class="card-img-top" alt="{{ article.title(locale) }}"
+                                 style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                <a href="{{ path('app_blog_article_show', {slug: article.slug, _locale: locale}) }}" 
+                                   class="text-decoration-none">
+                                    {{ article.title(locale) }}
+                                </a>
+                            </h2>
+                            
+                            <p class="card-text text-muted">
+                                <small>
+                                    <i class="fas fa-calendar"></i> {{ article.publishedAt|date('d/m/Y') }}
+                                    <i class="fas fa-user ms-3"></i> {{ article.author.email }}
+                                    <i class="fas fa-tag ms-3"></i> {{ article.category.name(locale) }}
+                                </small>
+                            </p>
+                            
+                            {% if article.summary(locale) %}
+                                <p class="card-text">{{ article.summary(locale) }}</p>
+                            {% endif %}
+                            
+                            <a href="{{ path('app_blog_article_show', {slug: article.slug, _locale: locale}) }}" 
+                               class="btn btn-primary">
+                                {{ 'blog.read_more'|trans }}
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
+                
+                <!-- Pagination -->
+                {% if totalPages > 1 %}
+                    <nav aria-label="Pagination">
+                        <ul class="pagination justify-content-center">
+                            {% if currentPage > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('app_blog_index', {page: currentPage - 1, _locale: locale}) }}">
+                                        {{ 'pagination.previous'|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            
+                            {% for page in 1..totalPages %}
+                                <li class="page-item {{ page == currentPage ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ path('app_blog_index', {page: page, _locale: locale}) }}">
+                                        {{ page }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            
+                            {% if currentPage < totalPages %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('app_blog_index', {page: currentPage + 1, _locale: locale}) }}">
+                                        {{ 'pagination.next'|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">{{ 'blog.categories'|trans }}</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        {% for category in categories %}
+                            <li class="mb-2">
+                                <a href="{{ path('app_blog_category_show', {slug: category.slug, _locale: locale}) }}" 
+                                   class="text-decoration-none">
+                                    <i class="fas fa-tag me-2"></i>{{ category.name(locale) }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">{{ 'blog.search'|trans }}</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ path('app_blog_search', {_locale: locale}) }}" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" 
+                                   placeholder="{{ 'search.placeholder'|trans }}" required>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

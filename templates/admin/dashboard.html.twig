@@ -1,0 +1,116 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Dashboard - Blog Multilingue{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ total_articles|default(0) }}</h4>
+                        <p class="card-text">Articles</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-newspaper fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ published_articles|default(0) }}</h4>
+                        <p class="card-text">Articles publiés</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ total_categories|default(0) }}</h4>
+                        <p class="card-text">Catégories</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-tags fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ total_users|default(0) }}</h4>
+                        <p class="card-text">Utilisateurs</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line"></i> Statistiques récentes
+                </h5>
+            </div>
+            <div class="card-body">
+                <p>Bienvenue dans l'interface d'administration du Blog Multilingue.</p>
+                <p>Utilisez le menu de gauche pour gérer :</p>
+                <ul>
+                    <li><strong>Articles</strong> : Créer, modifier et supprimer des articles</li>
+                    <li><strong>Catégories</strong> : Organiser les articles par catégories</li>
+                    <li><strong>Utilisateurs</strong> : Gérer les comptes utilisateurs</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle"></i> Informations
+                </h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Support multilingue :</strong></p>
+                <ul>
+                    <li>Français (fr)</li>
+                    <li>Anglais (en)</li>
+                    <li>Espagnol (es)</li>
+                </ul>
+                <p><strong>Fonctionnalités :</strong></p>
+                <ul>
+                    <li>Upload d'images</li>
+                    <li>SEO par langue</li>
+                    <li>Gestion des traductions</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

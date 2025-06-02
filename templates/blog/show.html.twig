@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title(locale) }}{% endblock %}
+
+{% block body %}
+    <article class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- En-tête de l'article -->
+            <header class="mb-4">
+                <h1 class="display-4">{{ article.title(locale) }}</h1>
+                
+                <div class="text-muted mb-3">
+                    <small>
+                        <i class="fas fa-calendar"></i> {{ article.publishedAt|date('d/m/Y à H:i') }}
+                        <i class="fas fa-user ms-3"></i> {{ article.author.email }}
+                        <i class="fas fa-tag ms-3"></i> 
+                        <a href="{{ path('app_blog_category_show', {slug: article.category.slug, _locale: locale}) }}" 
+                           class="text-decoration-none">
+                            {{ article.category.name(locale) }}
+                        </a>
+                    </small>
+                </div>
+                
+                {% if article.imageName %}
+                    <img src="{{ asset('uploads/articles/' ~ article.imageName) }}" 
+                         class="img-fluid rounded mb-3" alt="{{ article.title(locale) }}">
+                {% endif %}
+                
+                {% if article.summary(locale) %}
+                    <div class="lead mb-4">
+                        {{ article.summary(locale) }}
+                    </div>
+                {% endif %}
+            </header>
+            
+            <!-- Contenu de l'article -->
+            <div class="article-content mb-4">
+                {{ article.content(locale)|raw }}
+            </div>
+            
+            <!-- Métadonnées SEO -->
+            {% if article.seoTitle or article.seoDescription %}
+                <div class="card bg-light mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">{{ 'article.seo_info'|trans }}</h6>
+                    </div>
+                    <div class="card-body">
+                        {% if article.seoTitle %}
+                            <p><strong>{{ 'article.seo_title'|trans }}:</strong> {{ article.seoTitle }}</p>
+                        {% endif %}
+                        {% if article.seoDescription %}
+                            <p><strong>{{ 'article.seo_description'|trans }}:</strong> {{ article.seoDescription }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            
+            <!-- Navigation -->
+            <nav aria-label="Navigation des articles">
+                <ul class="pagination justify-content-between">
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('app_blog_index', {_locale: locale}) }}">
+                            <i class="fas fa-arrow-left"></i> {{ 'article.back_to_list'|trans }}
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('app_blog_category_show', {slug: article.category.slug, _locale: locale}) }}">
+                            <i class="fas fa-tag"></i> {{ 'article.view_category'|trans }}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </article>
+{% endblock %} 
